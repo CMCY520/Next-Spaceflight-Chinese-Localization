@@ -8,10 +8,7 @@
 // @match        https://nextspaceflight.com/*
 // @match        https://*.nextspaceflight.com/*
 // @run-at       document-start
-// @connect      raw.githubusercontent.com
-// @grant        GM_xmlhttpRequest
 // @grant        GM_registerMenuCommand
-// @grant        GM_notification
 // @grant        GM_getValue
 // @grant        GM_setValue
 // ==/UserScript==
@@ -24,8 +21,6 @@
      * ========================================================================= */
     const CONFIG = {
         scriptName: 'Next Spaceflight 网站中文汉化',              // 控制台 / 通知里显示的脚本名
-        cacheKey:  'nsf_zh_dict_data',          // 词库本地缓存键名
-        remoteDictUrl: '',                  // 远程词库地址（可选，留空则只用下方内置词库）
         enableTranslation: GM_getValue('enable_Translation', true), // 翻译总开关，可菜单切换
         // 正则触发器：仅当文本命中这些关键词时才跑正则，避免无谓消耗
         regexTrigger: /[:]|\d|@|\||am|pm|today|tomorrow|yesterday|ago|mon|tue|wed|thu|fri|sat|sun|day|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|quarter|half|net|earlier|height|diameter|leo|gto|kg|million|active|since|liftoff|planned|mission|orbital|launch|attempt|cst|ago|hours?|minutes?|days?|month|year|tbd|kilonewton|center|space|cosmodrome|spaceport|airbase|airport|station|range|complex|facility|base|site|force|island|peninsula|platform|ocean|sea|coast|field|area|port|pad|test|afb|sfb|sfc|sfs|usa|china|russia|japan|india|iran|brazil|france|korea|canada|australia|sweden|norway|israel|kenya|kazakhstan|guiana|zealand|florida|california|texas|virginia|alaska|guam|recover|articles/i,
@@ -1080,7 +1075,7 @@
     }
 
     /* =========================================================================
-     *  十、启动：内置词库立即可用 + 远程词库（可选）热更新
+     *  十、启动：内置词库立即启用
      * ========================================================================= */
     function launch() {
         // 1) 内置词库优先启用，确保零延迟翻译
@@ -1088,33 +1083,7 @@
             initTranslator(BUILTIN_DICT);
         }
 
-        // 2) 远程词库（若配置）：仅当本地缓存缺版本或版本更新时刷新
-        if (CONFIG.remoteDictUrl) {
-            const localData = GM_getValue(CONFIG.cacheKey, null);
-
-            GM_xmlhttpRequest({
-                method: 'GET',
-                url: CONFIG.remoteDictUrl + '?t=' + Date.now(),
-                onload: (res) => {
-                    if (res.status === 200) {
-                        try {
-                            const remoteData = JSON.parse(res.responseText);
-                            if (!localData || remoteData.version !== localData.version) {
-                                GM_setValue(CONFIG.cacheKey, remoteData);
-                                console.info(`[${CONFIG.scriptName}] 词库已更新至: ${remoteData.version}`);
-                                if (CONFIG.enableTranslation) {
-                                    initTranslator(remoteData);
-                                }
-                            }
-                        } catch (e) {
-                            console.error(`[${CONFIG.scriptName}] 词库解析异常`, e);
-                        }
-                    }
-                }
-            });
-        }
-
-        // 3) 油猴菜单：切换翻译总开关
+        // 2) 油猴菜单：切换翻译总开关
         GM_registerMenuCommand(`${CONFIG.enableTranslation ? '关闭' : '开启'}翻译`, () => {
             GM_setValue('enable_Translation', !CONFIG.enableTranslation);
             location.reload();
