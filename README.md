@@ -82,7 +82,7 @@
 ## 安装
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)
-2. 从 [Greasy Fork](https://greasyfork.org/) 安装本脚本
+2. 从 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/585130) 安装本脚本
 3. 访问 [nextspaceflight.com](https://nextspaceflight.com/)，界面自动汉化
 
 ## 使用
