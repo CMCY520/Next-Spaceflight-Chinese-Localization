@@ -1,4 +1,4 @@
-<img width="1398" height="1228" alt="4" src="https://github.com/user-attachments/assets/25ad1e15-1469-4e38-b9ef-68ec5a93cb66" />## Next Spaceflight 网站中文汉化
+## Next Spaceflight 网站中文汉化
 
 将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站完整汉化为中文的油猴脚本。
 
