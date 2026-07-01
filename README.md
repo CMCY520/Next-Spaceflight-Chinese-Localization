@@ -1,10 +1,10 @@
 # Next Spaceflight 网站中文汉化
 
-将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站汉化大部分为中文的油猴脚本。
+将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站大部分汉化为中文的油猴脚本。
 
 ## 功能概览
 
-覆盖网站全部页面的大部分中文化翻译，包括：
+覆盖网站大部分页面的中文化翻译，包括：
 
 ### 界面导航
 - 顶部导航栏（发射、火箭、复用、星舰、地点、获取应用）
@@ -84,6 +84,12 @@
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)
 2. 从 [Greasy Fork](https://greasyfork.org/) 安装本脚本
 3. 访问 [nextspaceflight.com](https://nextspaceflight.com/)，界面自动汉化
+
+## 使用
+
+安装后访问 Next Spaceflight 即自动汉化，无需额外操作。
+
+脚本提供油猴菜单开关，可随时开启或关闭翻译：点击浏览器工具栏的油猴图标，选择「关闭翻译」或「开启翻译」即可切换，切换后页面自动刷新生效。
 
 ## 许可
 
