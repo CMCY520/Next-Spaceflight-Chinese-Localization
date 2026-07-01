@@ -1,6 +1,8 @@
 // ==UserScript==
 // @name         Next Spaceflight 网站中文汉化
 // @author       NcPinX
+// @namespace    https://github.com/CMCY520/Next-Spaceflight-Chinese-Localization
+// @license      MIT
 // @description  中文化 Next Spaceflight 界面菜单及内容。
 // @version      0.1.0
 // @match        https://nextspaceflight.com/*
@@ -26,7 +28,7 @@
         remoteDictUrl: '',                  // 远程词库地址（可选，留空则只用下方内置词库）
         enableTranslation: GM_getValue('enable_Translation', true), // 翻译总开关，可菜单切换
         // 正则触发器：仅当文本命中这些关键词时才跑正则，避免无谓消耗
-        regexTrigger: /[:]|\d|@|\||am|pm|today|tomorrow|mon|tue|wed|thu|fri|sat|sun|day|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|quarter|half|net|earlier|height|diameter|leo|gto|kg|million|active|since|liftoff|planned|mission|orbital|launch|attempt|cst|ago|hours?|minutes?|days?|month|year|tbd|kilonewton|center|space|cosmodrome|spaceport|airbase|airport|station|range|complex|facility|base|site|force|island|peninsula|platform|ocean|sea|coast|field|area|port|pad|test|afb|sfb|sfc|sfs|usa|china|russia|japan|india|iran|brazil|france|korea|canada|australia|sweden|norway|israel|kenya|kazakhstan|guiana|zealand|florida|california|texas|virginia|alaska|guam|recover/i,
+        regexTrigger: /[:]|\d|@|\||am|pm|today|tomorrow|yesterday|ago|mon|tue|wed|thu|fri|sat|sun|day|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|quarter|half|net|earlier|height|diameter|leo|gto|kg|million|active|since|liftoff|planned|mission|orbital|launch|attempt|cst|ago|hours?|minutes?|days?|month|year|tbd|kilonewton|center|space|cosmodrome|spaceport|airbase|airport|station|range|complex|facility|base|site|force|island|peninsula|platform|ocean|sea|coast|field|area|port|pad|test|afb|sfb|sfc|sfs|usa|china|russia|japan|india|iran|brazil|france|korea|canada|australia|sweden|norway|israel|kenya|kazakhstan|guiana|zealand|florida|california|texas|virginia|alaska|guam|recover|articles/i,
     };
 
     /* =========================================================================
@@ -42,12 +44,36 @@
             "Starship":    "星舰",
             "Locations":   "地点",
             "Get the App": "获取应用",
-            "Upcoming":   "即将发射",
+            "Upcoming":   "即将登场",
             "Previous":   "历史发射",
             "Search...":  "搜索...",
             "Add Filter": "添加筛选",
             "Filter by...": "按...筛选",
             "Filter":      "筛选",
+
+            // —— 首页分类 ——
+            "Up Next":    "即将发射",
+            "All Launches": "全部发射",
+            "Events":    "事件",
+            "News":      "新闻",
+            "Articles":  "文章",
+            "All Articles": "全部文章",
+            "Yesterday":  "昨天",
+            "Show More": "显示更多",
+            "Show Less": "收起",
+            "Exclusive Features": "独家功能",
+
+            // —— 获取应用页 ——
+            "Get the Next in Spaceflight, on the go!": "随时随地掌握航天动态！",
+            "Flight simulations": "飞行模拟",
+            "Live launch timelines": "实时发射时间线",
+            "Notifications for upcoming launches and events": "即将发射与活动通知",
+            'Live \u201cNext Launch\u201d widget': '实时\u201c下次发射\u201d小组件',
+            "Next Spaceflight is making it easier than ever before to track the latest in spaceflight.": "下一次太空飞行让追踪最新航天动态变得前所未有的简单。",
+            "While our website is designed to work on mobile devices, our Android and iOS app provide a better mobile experience.": "虽然网站已适配移动设备，但 Android 和 iOS 应用提供更佳的移动体验。",
+            "Download today for free:": "今天免费下载：",
+            "Google Play": "Google Play",
+            "App Store": "App Store",
 
             // —— 发射状态 ——
             "TBD Date & Time":   "日期和时间待定",
@@ -305,9 +331,10 @@
             'Alpha': '阿尔法', 'Amur': '阿穆尔',
             'Angara 1': '安加拉1号', 'Angara A5': '安加拉A5',
             'Antares': '安塔瑞斯', 'Ares 1': '战神1号',
-            'Ariane 1': '阿丽亚娜1号', 'Ariane 2': '阿丽亚娜2号',
-            'Ariane 3': '阿丽亚娜3号', 'Ariane 4': '阿丽亚娜4号',
-            'Ariane 5': '阿丽亚娜5号', 'Ariane 6': '阿丽亚娜6号',
+            'Ariane': '阿丽亚娜',
+            'Ariane 1': '阿丽亚娜1', 'Ariane 2': '阿丽亚娜2',
+            'Ariane 3': '阿丽亚娜3', 'Ariane 4': '阿丽亚娜4',
+            'Ariane 5': '阿丽亚娜5', 'Ariane 6': '阿丽亚娜6',
             'Athena I': '雅典娜I', 'Athena II': '雅典娜II',
             'Black Arrow': '黑箭', 'Blue Scout II': '蓝色侦察兵II',
             'Ceres 1': '谷神星一号', 'Ceres 2': '谷神星二号',
@@ -359,6 +386,11 @@
             'Space Shuttle': '航天飞机', 'Spectrum': '光谱',
             'Sputnik 8A91': '人造卫星8A91', 'Sputnik 8K71PS': '人造卫星8K71PS',
             'Starship Prototype': '星舰原型',
+            'Super Heavy': '超重助推',
+            'Starship-Super Heavy': '星舰-超重助推',
+            'Tanker Starship': '加油星舰',
+            'Crew Starship': '载人星舰',
+            'Cargo Starship': '货运星舰',
             'START-1': '起飞-1', 'Strela': '箭',
             'Super Strypi': '超级斯特鲁皮',
             'Taepodong 1': '大浦洞1号',
@@ -393,6 +425,7 @@
             'Long March 12': '长征十二号', 'Long March 12A': '长征十二号A',
             'Long March 12B': '长征十二号B',
             // Atlas系列
+            'Atlas': '宇宙神',
             'Atlas-Able': '宇宙神-艾布尔', 'Atlas-Agena': '宇宙神-阿金纳',
             'Atlas-Altair': '宇宙神-牵牛星', 'Atlas-Burner': '宇宙神-燃烧器',
             'Atlas-Centaur': '宇宙神-半人马', 'Atlas I': '宇宙神I',
@@ -522,80 +555,36 @@
         // —— 正则规则：处理动态时间文本 ——
         // \d{1,2}:\d{2} 匹配任意时分，$1 为该时间（动态值，非固定）
         regexRules: [
-            // "Tomorrow/Today, <任意时分> PM/AM" → "明天/今天，下午/上午 <时间>"
-            [/\bTomorrow,\s*(\d{1,2}:\d{2})\s*PM\b/i, '明天，下午 $1', ''],
-            [/\bTomorrow,\s*(\d{1,2}:\d{2})\s*AM\b/i, '明天，上午 $1', ''],
-            [/\bToday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '今天，下午 $1', ''],
-            [/\bToday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '今天，上午 $1', ''],
-            // "星期名, <任意时分> PM/AM" → "周X，下午/上午 <时间>"
-            [/\bMonday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周一，下午 $1', ''],
-            [/\bMonday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周一，上午 $1', ''],
-            [/\bTuesday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周二，下午 $1', ''],
-            [/\bTuesday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周二，上午 $1', ''],
-            [/\bWednesday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周三，下午 $1', ''],
-            [/\bWednesday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周三，上午 $1', ''],
-            [/\bThursday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周四，下午 $1', ''],
-            [/\bThursday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周四，上午 $1', ''],
-            [/\bFriday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周五，下午 $1', ''],
-            [/\bFriday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周五，上午 $1', ''],
-            [/\bSaturday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周六，下午 $1', ''],
-            [/\bSaturday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周六，上午 $1', ''],
-            [/\bSunday,\s*(\d{1,2}:\d{2})\s*PM\b/i, '周日，下午 $1', ''],
-            [/\bSunday,\s*(\d{1,2}:\d{2})\s*AM\b/i, '周日，上午 $1', ''],
-            // "月份 日, 时分 PM/AM" → "X月X日 下午/上午 时分"
-            // $1=日 $2=时分
-            [/\bJanuary\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '1月$1日 下午 $2', ''],
-            [/\bJanuary\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '1月$1日 上午 $2', ''],
-            [/\bFebruary\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '2月$1日 下午 $2', ''],
-            [/\bFebruary\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '2月$1日 上午 $2', ''],
-            [/\bMarch\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '3月$1日 下午 $2', ''],
-            [/\bMarch\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '3月$1日 上午 $2', ''],
-            [/\bApril\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '4月$1日 下午 $2', ''],
-            [/\bApril\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '4月$1日 上午 $2', ''],
-            [/\bMay\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '5月$1日 下午 $2', ''],
-            [/\bMay\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '5月$1日 上午 $2', ''],
-            [/\bJune\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '6月$1日 下午 $2', ''],
-            [/\bJune\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '6月$1日 上午 $2', ''],
-            [/\bJuly\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '7月$1日 下午 $2', ''],
-            [/\bJuly\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '7月$1日 上午 $2', ''],
-            [/\bAugust\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '8月$1日 下午 $2', ''],
-            [/\bAugust\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '8月$1日 上午 $2', ''],
-            [/\bSeptember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '9月$1日 下午 $2', ''],
-            [/\bSeptember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '9月$1日 上午 $2', ''],
-            [/\bOctober\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '10月$1日 下午 $2', ''],
-            [/\bOctober\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '10月$1日 上午 $2', ''],
-            [/\bNovember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '11月$1日 下午 $2', ''],
-            [/\bNovember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '11月$1日 上午 $2', ''],
-            [/\bDecember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*PM\b/i, '12月$1日 下午 $2', ''],
-            [/\bDecember\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*AM\b/i, '12月$1日 上午 $2', ''],
-            // "NET 月份, 年份" → "不早于 年份月份"（年月调换）
-            // $1=月(英文) $2=年。枚举月份转数字
-            [/\bNET\s+January,\s*(\d{4})\b/i, '不早于 $1年1月', ''],
-            [/\bNET\s+February,\s*(\d{4})\b/i, '不早于 $1年2月', ''],
-            [/\bNET\s+March,\s*(\d{4})\b/i, '不早于 $1年3月', ''],
-            [/\bNET\s+April,\s*(\d{4})\b/i, '不早于 $1年4月', ''],
-            [/\bNET\s+May,\s*(\d{4})\b/i, '不早于 $1年5月', ''],
-            [/\bNET\s+June,\s*(\d{4})\b/i, '不早于 $1年6月', ''],
-            [/\bNET\s+July,\s*(\d{4})\b/i, '不早于 $1年7月', ''],
-            [/\bNET\s+August,\s*(\d{4})\b/i, '不早于 $1年8月', ''],
-            [/\bNET\s+September,\s*(\d{4})\b/i, '不早于 $1年9月', ''],
-            [/\bNET\s+October,\s*(\d{4})\b/i, '不早于 $1年10月', ''],
-            [/\bNET\s+November,\s*(\d{4})\b/i, '不早于 $1年11月', ''],
-            [/\bNET\s+December,\s*(\d{4})\b/i, '不早于 $1年12月', ''],
+            // "Tomorrow/Today/Yesterday, <时分> PM/AM" → "明天/今天/昨天，下午/上午 <时间>"
+            [/\b(Tomorrow|Today|Yesterday),\s*(\d{1,2}:\d{2})\s*(AM|PM)\b/i,
+             (match, day, time, ap) => {
+                 const d = { tomorrow: '明天', today: '今天', yesterday: '昨天' };
+                 return `${d[day.toLowerCase()]}，${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`;
+             }, 'i'],
+            // "星期名, <时分> PM/AM" → "周X，下午/上午 <时间>"
+            [/\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*(\d{1,2}:\d{2})\s*(AM|PM)\b/i,
+             (match, weekday, time, ap) => {
+                 const w = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日' };
+                 return `${w[weekday.toLowerCase()]}，${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`;
+             }, 'i'],
+            // "月份 日, <时分> PM/AM" → "X月X日 下午/上午 时分"
+            [/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*(AM|PM)\b/i,
+             (match, month, day, time, ap) => {
+                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
+                 return `${m[month.toLowerCase()]}${day}日 ${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`;
+             }, 'i'],
+            // "NET 月份, 年份" → "不早于 年份月份"
+            [/\bNET\s+(January|February|March|April|May|June|July|August|September|October|November|December),\s*(\d{4})\b/i,
+             (match, month, year) => {
+                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
+                 return `不早于 ${year}年${m[month.toLowerCase()]}`;
+             }, 'i'],
             // "NET 月份 日, 年份" → "不早于 年份月份日"
-            // $1=日 $2=年
-            [/\bNET\s+January\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年1月$1日', ''],
-            [/\bNET\s+February\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年2月$1日', ''],
-            [/\bNET\s+March\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年3月$1日', ''],
-            [/\bNET\s+April\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年4月$1日', ''],
-            [/\bNET\s+May\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年5月$1日', ''],
-            [/\bNET\s+June\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年6月$1日', ''],
-            [/\bNET\s+July\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年7月$1日', ''],
-            [/\bNET\s+August\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年8月$1日', ''],
-            [/\bNET\s+September\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年9月$1日', ''],
-            [/\bNET\s+October\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年10月$1日', ''],
-            [/\bNET\s+November\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年11月$1日', ''],
-            [/\bNET\s+December\s+(\d{1,2}),\s*(\d{4})\b/i, '不早于 $2年12月$1日', ''],
+            [/\bNET\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{4})\b/i,
+             (match, month, day, year) => {
+                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
+                 return `不早于 ${year}年${m[month.toLowerCase()]}${day}日`;
+             }, 'i'],
             // "NET Xst/nd/rd/th Quarter, 年份" → "不早于 年份第X季度"
             [/\bNET\s+1st\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第1季度', ''],
             [/\bNET\s+2nd\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第2季度', ''],
@@ -612,6 +601,14 @@
              (match, weekday, month, day, year) => {
                  const w = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日' };
                  const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
+                 return `${year}年${m[month.toLowerCase()]}${day}日 ${w[weekday.toLowerCase()]}`;
+             }, 'i'],
+            // "缩写星期 缩写月 日, 年" → "年月日 周X"
+            // 例：Tue Jun 30, 2026 → 2026年6月30日 周二
+            [/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),\s*(\d{4})\b/i,
+             (match, weekday, month, day, year) => {
+                 const w = { mon: '周一', tue: '周二', wed: '周三', thu: '周四', fri: '周五', sat: '周六', sun: '周日' };
+                 const m = { jan: '1月', feb: '2月', mar: '3月', apr: '4月', may: '5月', jun: '6月', jul: '7月', aug: '8月', sep: '9月', oct: '10月', nov: '11月', dec: '12月' };
                  return `${year}年${m[month.toLowerCase()]}${day}日 ${w[weekday.toLowerCase()]}`;
              }, 'i'],
             // “月份 日, 年” → “年月日”（卡片日期，无星期无时间）
@@ -689,6 +686,9 @@
             [/\b(\d+)\s*Payloads?\b/i, '$1个载荷', ''],
             // "10 days 18 hours" → "10天 18小时"
             [/\b(\d+)\s*days?\s*(\d+)\s*hours?\b/i, '$1天 $2小时', ''],
+            // "2 days ago" → "前天"，"3 days ago" → "3天前"（须排在 days 规则前）
+            [/\b2\s+days?\s+ago\b/i, '前天', ''],
+            [/\b(\d+)\s*days?\s+ago\b/i, '$1天前', ''],
             [/\b(\d+)\s*days?\b/i, '$1天', ''],
             [/\b(\d+)\s*hours?\b/i, '$1小时', ''],
             // "7 knots" → "7节"
@@ -756,6 +756,13 @@
                         const tb = dict.get(base);
                         if (tb) return tb + m[2];
                     }
+                    // 前缀匹配：Atlas V 401 → Atlas V → 宇宙神V 401
+                    const parts = name.split(/\s+/);
+                    for (let i = parts.length - 1; i >= 1; i--) {
+                        const prefix = parts.slice(0, i).join(' ');
+                        const tp = dict.get(prefix);
+                        if (tp) return tp + ' ' + parts.slice(i).join(' ');
+                    }
                     return null;
                 };
                 let r;
@@ -821,6 +828,17 @@
         let result = dict.get(lookupKey) || dict.get(originalTrimmed) || lowerDict.get(lookupKey.toLowerCase());
         if (result) return text.replace(originalTrimmed, result);
 
+        // 1.5) 火箭名/机构名前缀匹配：Atlas V 551 → 宇宙神V 551（至少2词前缀）
+        const parts = lookupKey.split(/\s+/);
+        for (let i = parts.length - 1; i >= 2; i--) {
+            const prefix = parts.slice(0, i).join(' ');
+            const tp = dict.get(prefix) || lowerDict.get(prefix.toLowerCase());
+            if (tp) {
+                const suffix = parts.slice(i).join(' ');
+                return text.replace(originalTrimmed, tp + ' ' + suffix);
+            }
+        }
+
         // 2) 命中正则触发器才跑正则，处理动态文本（时间等）
         if (CONFIG.regexTrigger.test(lookupKey)) {
             for (let i = 0; i < regexRules.length; i++) {
@@ -838,7 +856,7 @@
         // 合并相邻文本节点：React 拆分 "Payloads" → "Payload" + "s"、"573rd" → "573" + "rd"
         // normalize 后变回整体，序数词 / Payloads 规则才能命中
         const raw = node.nodeValue || '';
-        if (node.parentElement && (/payload/i.test(raw) || /^\d+$/.test(raw))) {
+        if (node.parentElement && (/payload/i.test(raw) || /^\d+$/.test(raw) || /^Show\s/i.test(raw))) {
             node.parentElement.normalize();
         }
         const val = node.nodeValue;
