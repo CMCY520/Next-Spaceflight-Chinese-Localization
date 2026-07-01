@@ -1,4 +1,4 @@
-## Next Spaceflight 网站中文汉化
+<img width="1398" height="1228" alt="4" src="https://github.com/user-attachments/assets/25ad1e15-1469-4e38-b9ef-68ec5a93cb66" />## Next Spaceflight 网站中文汉化
 
 将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站完整汉化为中文的油猴脚本。
 
@@ -58,6 +58,20 @@
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)
 2. 从 [Greasy Fork](https://greasyfork.org/) 安装本脚本
 3. 访问 [nextspaceflight.com](https://nextspaceflight.com/)，界面自动汉化
+
+
+
+
+<img width="1395" height="1288" alt="1" src="https://github.com/user-attachments/assets/04926ad1-b027-4c69-9e14-872265e1ee93" />
+<img width="1441" height="1215" alt="2" src="https://github.com/user-attachments/assets/d81e1d72-2628-494d-bd44-8f0b2f1c6c20" />
+<img width="1331" height="1242" alt="2-1" src="https://github.com/user-attachments/assets/08e13c3d-e389-4f6d-934f-25e6848aaef7" />
+<img width="1307" height="2069" alt="3" src="https://github.com/user-attachments/assets/53a16f17-dd55-433f-8c09-906ed5b106bf" />
+<img width="1398" height="1228" alt="4" src="https://github.com/user-attachments/assets/e8a822e8-d374-46b2-8d4c-b53a1f454be1" />
+<img width="1391" height="1268" alt="5" src="https://github.com/user-attachments/assets/28a67642-616b-4f50-ad3a-82f3071594ea" />
+<img width="1275" height="1261" alt="6" src="https://github.com/user-attachments/assets/beddbb82-8864-4657-bf21-563181b9d4f1" />
+<img width="1250" height="1834" alt="6-1" src="https://github.com/user-attachments/assets/76dd661f-c0b7-4c91-a022-0c80c397d71b" />
+<img width="1379" height="1237" alt="7" src="https://github.com/user-attachments/assets/43e388ab-8f5f-4dc0-8da0-e56497dee7a1" />
+
 
 ### 许可
 
