@@ -1,6 +1,6 @@
 # Next Spaceflight 网站中文汉化
 
-将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站完整汉化为中文的油猴脚本。
+将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站汉化大部分为中文的油猴脚本。
 
 ## 功能概览
 
