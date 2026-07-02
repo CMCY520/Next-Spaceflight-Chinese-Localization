@@ -1,73 +1,45 @@
-# Next Spaceflight 网站中文汉化
+## Next Spaceflight 网站中文汉化
 
 将 Next Spaceflight（nextspaceflight.com）火箭发射跟踪网站大部分汉化为中文的油猴脚本。
 
-## 功能概览
+### 功能概览
 
-覆盖网站大部分页面的中文化翻译，包括：
+**界面导航**
+- 顶部导航栏、首页分类标题、筛选器、搜索框、按钮、无障碍标签
 
-### 界面导航
-- 顶部导航栏（发射、火箭、复用、星舰、地点、获取应用）
-- 首页分类标题（即将发射、事件、新闻、独家功能）
-- 筛选器、搜索框、按钮、无障碍标签
+**发射信息**
+- 发射状态（10 种）、倒计时单位、发射类型、任务名称
 
-### 发射信息
-- 发射状态（成功、失败、飞行中、取消发射、结果待定等 10 种）
-- 倒计时单位（时、分、秒）
-- 发射类型（回收、亚轨道）
-- 任务名称（演示飞行、未知载荷）
+**时间日期**（正则动态匹配）
+- 相对时间（明天、今天、昨天、前天、X天前）
+- 全称/缩写星期与月份，自动转为中文年月日格式
+- NET（不早于）日期（年月、季度、半年）
+- 天气状态（9 种）
 
-### 时间日期（正则动态匹配，支持任意日期组合）
-- 相对时间：明天、今天、昨天、前天、X天前
-- 日期格式：全称/缩写星期、全称/缩写月份，自动转为中文年月日格式
-- NET（不早于）日期：年月、季度、半年等格式
-- 天气状态（晴空、多云、雷暴、小雨等 9 种）
+**火箭型号**（150+ 种）
+- 主流运载火箭全系列
+- 支持变体后缀、连字符、斜杠、上面级组合等自动匹配
+- 星舰多种配置支持
 
-### 火箭型号（150+ 种）
-- 长征系列、猎鹰系列、联盟号、阿丽亚娜、质子号、宇宙神、德尔塔、土星、安加拉 等
-- 支持变体后缀自动匹配
-- 星舰配置：星舰-超重助推、加油星舰、载人星舰、货运星舰
+**复用与回收**
+- 复用状态、连续记录、排序选项
+- 飞船舱、航天飞机名、着陆场等动态匹配
+- 飞行次数自动翻译
 
-### 复用与回收
-- 复用状态（摧毁、消耗、回收尝试、成功回收、回收失败）
-- 连续记录（连续成功回收、连续成功着陆、连续成功着陆与回收）
-- 排序选项（飞行次数、最快复用、平均复用）
-- 配置与清单信息
+**机构/公司**（100+ 家）
+- 全球各大航天机构与商业公司
+- 机构所属类型动态匹配
+- 机构信息翻译
 
-### 机构/公司（100+ 家）
-- SpaceX、NASA、CASC、ISRO、Roscosmos、JAXA、Arianespace、ULA 等
-
-### 发射场/工位（100+ 个）
-- 各国航天中心、发射场、发射工位、地点
+**发射场/工位**（100+ 个）
+- 各国航天中心、发射场、发射工位
 - 中文语序自动重排
 
-### 详情页
-- 火箭参数（高度、直径、LEO/GTO 载荷、起飞推力、价格、整流罩、级数）
-- 机构信息（制造商、运营商、首席执行官、成立年份）
-- 统计数据（任务次数、成功率、连续成功、发射场等）
-- 按钮/链接（观看、回放、直播、官网、维基百科、论坛）
+**详情页**
+- 火箭参数、飞行轨迹方向（16 方位罗盘）
+- 统计数据、按钮与链接
 
-## 截图
-
-<img width="600" src="https://github.com/user-attachments/assets/04926ad1-b027-4c69-9e14-872265e1ee93" alt="首页" />
-
-<img width="600" src="https://github.com/user-attachments/assets/d81e1d72-2628-494d-bd44-8f0b2f1c6c20" alt="发射列表" />
-
-<img width="600" src="https://github.com/user-attachments/assets/08e13c3d-e389-4f6d-934f-25e6848aaef7" alt="发射详情" />
-
-<img width="600" src="https://github.com/user-attachments/assets/53a16f17-dd55-433f-8c09-906ed5b106bf" alt="火箭详情" />
-
-<img width="600" src="https://github.com/user-attachments/assets/e8a822e8-d374-46b2-8d4c-b53a1f454be1" alt="机构详情" />
-
-<img width="600" src="https://github.com/user-attachments/assets/28a67642-616b-4f50-ad3a-82f3071594ea" alt="复用页面" />
-
-<img width="600" src="https://github.com/user-attachments/assets/beddbb82-8864-4657-bf21-563181b9d4f1" alt="星舰页面" />
-
-<img width="600" src="https://github.com/user-attachments/assets/76dd661f-c0b7-4c91-a022-0c80c397d71b" alt="星舰详情" />
-
-<img width="600" src="https://github.com/user-attachments/assets/43e388ab-8f5f-4dc0-8da0-e56497dee7a1" alt="地点页面" />
-
-## 技术特点
+### 技术特点
 
 - **TreeWalker 高性能遍历：** 使用原生 C++ 级 DOM 遍历，替代 `querySelectorAll('*')`
 - **时间片轮转：** 每帧 12ms 预算，`requestAnimationFrame` 驱动，不阻塞主线程
@@ -77,20 +49,34 @@
 - **文本节点合并：** 自动 `normalize()` 修复 React 拆分的文本节点
 - **MutationObserver 增量翻译：** 适配 SPA 动态加载，新增节点即时翻译
 - **正则触发器预筛选：** 仅含关键词的文本才走正则，避免无谓消耗
-- **前缀匹配：** 火箭名/机构名带变体后缀时自动匹配词库前缀
+- **火箭名前缀匹配：** 单字前缀白名单机制，自动适配变体后缀
 
-## 安装
+### 安装
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)
-2. 从 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/585130)（点击访问脚本地址） 安装本脚本
+2. 从 [Greasy Fork](https://greasyfork.org/zh-CN/scripts/585130) 安装本脚本
 3. 访问 [nextspaceflight.com](https://nextspaceflight.com/)，界面自动汉化
 
-## 使用
+### 使用
 
 安装后访问 Next Spaceflight 即自动汉化，无需额外操作。
 
 脚本提供油猴菜单开关，可随时开启或关闭翻译：点击浏览器工具栏的油猴图标，选择「关闭翻译」或「开启翻译」即可切换，切换后页面自动刷新生效。
 
-## 许可
+### 截图
+<img width="600" alt="1" src="https://github.com/user-attachments/assets/1fba6fbb-bd75-4cea-8c46-9dc053d6d171" />
+<img width="600" alt="2" src="https://github.com/user-attachments/assets/4075cdf6-8e77-48c9-8226-d3d136bc61c6" />
+<img width="600" alt="2-1" src="https://github.com/user-attachments/assets/fe71674a-09aa-4728-80b8-dafef48590cc" />
+<img width="600" alt="2-3" src="https://github.com/user-attachments/assets/100545ec-7f7a-490c-928e-62538cc6c901" />
+<img width="600" alt="3" src="https://github.com/user-attachments/assets/d27f63fb-23dc-4e48-802b-d9e4fd6931ce" />
+<img width="600" alt="4" src="https://github.com/user-attachments/assets/0efe576f-acc6-4728-ae8d-71b44e5365b3" />
+<img width="600" alt="5" src="https://github.com/user-attachments/assets/60904058-e3d8-40db-a5ca-e9f8ae0d7f45" />
+<img width="600" alt="5-1" src="https://github.com/user-attachments/assets/173506bf-3f9b-4d1d-b09b-7861065c503a" />
+<img width="600" alt="6" src="https://github.com/user-attachments/assets/e7d07389-c14f-48c7-b120-6ee8cd57f3d7" />
+<img width="600" alt="7" src="https://github.com/user-attachments/assets/e136872a-607f-4f19-b4db-2f1a8cc7d3c0" />
+<img width="600" alt="8" src="https://github.com/user-attachments/assets/5c54c07b-4ee7-4973-a137-0da6aadf791c" />
+
+
+### 许可
 
 MIT License · 作者 NcPinX
