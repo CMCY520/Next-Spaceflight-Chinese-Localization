@@ -23,12 +23,17 @@
         scriptName: 'Next Spaceflight 网站中文汉化',              // 控制台 / 通知里显示的脚本名
         enableTranslation: GM_getValue('enable_Translation', true), // 翻译总开关，可菜单切换
         // 正则触发器：仅当文本命中这些关键词时才跑正则，避免无谓消耗
-        regexTrigger: /[:]|\d|@|\||am|pm|today|tomorrow|yesterday|ago|mon|tue|wed|thu|fri|sat|sun|day|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|quarter|half|net|earlier|height|diameter|leo|gto|kg|million|active|since|liftoff|planned|mission|orbital|launch|attempt|cst|ago|hours?|minutes?|days?|month|year|tbd|kilonewton|center|space|cosmodrome|spaceport|airbase|airport|station|range|complex|facility|base|site|force|island|peninsula|platform|ocean|sea|coast|field|area|port|pad|test|afb|sfb|sfc|sfs|usa|china|russia|japan|india|iran|brazil|france|korea|canada|australia|sweden|norway|israel|kenya|kazakhstan|guiana|zealand|florida|california|texas|virginia|alaska|guam|recover|articles/i,
+        regexTrigger: /[:]|\d|@|\||am|pm|today|tomorrow|yesterday|ago|mon|tue|wed|thu|fri|sat|sun|day|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|quarter|half|net|earlier|height|diameter|leo|gto|kg|million|active|since|liftoff|planned|mission|orbital|launch|attempt|cst|hours?|minutes?|days?|month|year|tbd|kilonewton|center|space|cosmodrome|spaceport|airbase|airport|station|range|complex|facility|base|site|force|island|peninsula|platform|ocean|sea|coast|field|area|port|pad|test|afb|sfb|sfc|sfs|usa|china|russia|japan|india|iran|brazil|france|korea|canada|australia|sweden|norway|israel|kenya|kazakhstan|guiana|zealand|florida|california|texas|virginia|alaska|guam|recover|articles|vehicle|capsule|endeavour|discovery|columbia|challenger|atlantis|company|agency/i,
     };
 
     /* =========================================================================
      *  二、内置词库（稍后填充）—— 你发网站后，把对照关系填进来
      * ========================================================================= */
+    // 共享映射表（正则规则引用，避免重复定义）
+    const _w = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日' };
+    const _m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
+    const _wAbbr = { mon: '周一', tue: '周二', wed: '周三', thu: '周四', fri: '周五', sat: '周六', sun: '周日' };
+    const _mAbbr = { jan: '1月', feb: '2月', mar: '3月', apr: '4月', may: '5月', jun: '6月', jul: '7月', aug: '8月', sep: '9月', oct: '10月', nov: '11月', dec: '12月' };
     const BUILTIN_DICT = {
         version: '0.1.0',
         translations: {
@@ -88,6 +93,7 @@
             // —— 发射类型 ——
             "Recovery":  "回收",
             "Suborbital": "亚轨道",
+            "Splashdown": "溅落",
 
             // —— 倒计时单位 ——
             "HOURS": "时",
@@ -145,7 +151,9 @@
             "Status":      "状态",
             "Type":        "类型",
             "Rocket":      "火箭",
-            "Vehicle":     "箭体",
+            "Vehicle":     "飞行器",
+            "Unknown":    "未知",
+            "Capsule":    "载人舱",
             "Agency":      "机构",
             "Pad":         "发射工位",
 
@@ -197,6 +205,20 @@
             "Polar Orbit":           "极地轨道",
             "Medium Earth Orbit":    "中地球轨道",
             "Geostationary Orbit":   "地球静止轨道",
+            "Launching":             "正在发射",
+            "General Trajectory":    "大致轨迹",
+            "North":     "北", "South":  "南",
+            "East":      "东", "West":   "西",
+            "Northeast": "东北", "Northwest": "西北",
+            "Southeast": "东南", "Southwest": "西南",
+            "North-Northeast": "东北偏北", "East-Northeast": "东北偏东",
+            "East-Southeast": "东南偏东", "South-Southeast": "东南偏南",
+            "South-Southwest": "西南偏南", "West-Southwest": "西南偏西",
+            "West-Northwest": "西北偏西", "North-Northwest": "西北偏北",
+            "NNE": "东北偏北", "ENE": "东北偏东",
+            "ESE": "东南偏东", "SSE": "东南偏南",
+            "SSW": "西南偏南", "WSW": "西南偏西",
+            "WNW": "西北偏西", "NNW": "西北偏北",
             "Payload":               "个载荷",
             "Payloads":              "个载荷",
             "kilograms":             "千克",
@@ -232,12 +254,24 @@
             "Profile":              "主页",
             "Read Article":         "阅读文章",
             "Track Payloads":       "追踪载荷",
+            "Company Info":         "公司信息",
+            "Info":                 "信息",
+            // —— 机构所属类型 ——
+            "Company":              "公司",
+            "Government Agency":    "政府机构",
+            "State-owned Company":  "国有企业",
+            "Research Institute":   "研究所",
+            "Aerospace Corporation": "航天公司",
+            "Space Force":          "太空军",
+            "Air Force":            "空军",
+            "Navy":                 "海军",
 
             // —— 复用详情页 ——
             "Configuration":        "配置",
             "Manifest":             "清单",
             "Destroyed":            "摧毁",
             "Expended":             "消耗",
+            "Expendable":           "消耗型",
             "recovery attempt":     "回收尝试",
             "successful recovery":  "成功回收",
             "consecutive successful recovery": "连续成功回收",
@@ -336,12 +370,18 @@
             'Chŏllima': '千里马', 'Conestoga 1': '大篷车1号',
             'Cosmos-1': '宇宙-1', 'Cosmos-2I': '宇宙-2I', 'Cosmos-3': '宇宙-3',
             'Cyclone-4M': '旋风-4M',
+            'Crew Dragon': '载人龙', 'Cargo Dragon': '货运龙',
+            'Dream Chaser': '逐梦者',
             'Diamant': '钻石', 'Dnepr': '第聂伯',
             'Eclipse': '日蚀', 'Electron': '电子号',
-            'Energiya': '能源号', 'Epsilon': '艾普西龙', 'Epsilon S': '艾普斯龙 S',
+            'Electron/Photon': '电子号/光子', 'Electron/Explorer': '电子号/探索者', 'Electron/Curie': '电子号/居里',
+            'Photon': '光子', 'Explorer': '探索者', 'Curie': '居里',
+            'Energiya': '能源号', 'Buran': '暴风雪', 'Energiya/Buran': '能源号/暴风雪',
+            'Epsilon': '艾普西龙', 'Epsilon S': '艾普斯龙 S',
             'Eris': '厄里斯', 'Europa': '欧罗巴',
             'Falcon 1': '猎鹰1号', 'Falcon 9': '猎鹰9号', 'Falcon Heavy': '猎鹰重型',
             'Feng Bao 1': '风暴一号',
+            'Gemini': '双子座',
             'Gravity 1': '引力一号', 'Gravity 2': '引力二号',
             'Hanbit-Nano': '韩光-纳米',
             'Hapith I': '飞鼠I', 'Hapith V': '飞鼠V',
@@ -353,8 +393,8 @@
             'Kuaizhou 1': '快舟一号', 'Kuaizhou 1A': '快舟一号甲', 'Kuaizhou 11': '快舟十一号',
             'Lambda 4S': '拉姆达4S', 'LauncherOne': '发射者一号',
             'Mercury-Redstone': '水星-红石',
-            'Minotaur C (Taurus)': '牛头怪C (金牛座)', 'Minotaur I': '牛头怪I',
-            'Minotaur IV': '牛头怪IV', 'Minotaur V': '牛头怪V',
+            'Minotaur C (Taurus)': '米诺陶C (金牛座)', 'Minotaur I': '米诺陶I',
+            'Minotaur IV': '米诺陶IV', 'Minotaur V': '米诺陶V',
             'Miura 5': '缪拉5号',
             'Molniya': '闪电号', 'Molniya-M': '闪电-M',
             'Mu-III': '缪-III', 'Mu-IV': '缪-IV', 'Mu-V': '缪-V',
@@ -363,6 +403,8 @@
             'Nova': '新星', 'Pallas 1': '智神星一号',
             'Pegasus': '飞马座', 'Polyot': '飞行号',
             'Proton': '质子号', 'Proton-K': '质子-K', 'Proton-M': '质子-M',
+            'Proton-M/Briz-M': '质子-M/Briz-M', 'Proton-M/DM-2': '质子-M/DM-2',
+            'Proton-M/DM-3': '质子-M/DM-3',
             'Qaem 100': '伊兰100', 'Qased': '加塞德',
             'Redstone Sparta': '红石-斯巴达',
             'Rocket 3': '火箭3号', 'Rocket 4': '火箭4号',
@@ -372,13 +414,18 @@
             'Scout': '侦察兵', 'Shavit': '沙维特',
             "Shtil'": "什季尔", 'Simorgh': '神鸟',
             'SM-65B Atlas': 'SM-65B宇宙神',
+            'Skyrora XL': '天空曙光XL',
             'Soyuz': '联盟号', 'Soyuz 2.1a': '联盟2.1a', 'Soyuz 2.1b': '联盟2.1b',
             'Soyuz 2.1v': '联盟2.1v', 'Soyuz 5': '联盟5号',
             'Soyuz FG': '联盟FG', 'Soyuz L': '联盟L',
             'Soyuz M': '联盟M', 'Soyuz U': '联盟U',
             'Space Launch System': '太空发射系统',
             'SpaceShipOne': '太空船一号', 'SpaceShipTwo': '太空船二号',
-            'Space Shuttle': '航天飞机', 'Spectrum': '光谱',
+            'Space Shuttle': '航天飞机', 'Atlantis': '亚特兰蒂斯',
+            'Endeavour': '奋进号', 'Discovery': '发现号',
+            'Columbia': '哥伦比亚号', 'Challenger': '挑战者号',
+            'Starliner': '星际客机', 'Space Rider': '太空骑手',
+            'Spectrum': '光谱',
             'Sputnik 8A91': '人造卫星8A91', 'Sputnik 8K71PS': '人造卫星8K71PS',
             'Starship Prototype': '星舰原型',
             'Super Heavy': '超重助推',
@@ -400,9 +447,10 @@
             'Vanguard': '先锋', 'Vega': '织女星',
             'Vikram-I': '维克拉姆-I', 'Volna': '波浪',
             'Voskhod': '上升号', 'Vostok': '东方号', 'Vostok-2': '东方-2',
-            'Vulcan Centaur': '火神半人马', 'Zenit': '天顶号',
+            'Vulcan': '火神', 'Vulcan Centaur': '火神半人马', 'Zenit': '天顶号',
             'Zéphyr': '泽菲尔',
             'ZhuQue 1': '朱雀一号', 'ZhuQue 2': '朱雀二号', 'ZhuQue 3': '朱雀三号',
+            'ZhuQue-2E': '朱雀二号E', 'ZhuQue-2E Block 2': '朱雀二号E Block 2',
             'Zoljanah': '佐尔贾纳',
             // 长征系列
             'Long March 1': '长征一号', 'Long March 2': '长征二号',
@@ -419,6 +467,7 @@
             'Long March 10B': '长征十号B', 'Long March 11': '长征十一号',
             'Long March 12': '长征十二号', 'Long March 12A': '长征十二号A',
             'Long March 12B': '长征十二号B',
+            'Maia': '玛雅号', 'Maia/Colibri': '玛雅号/Colibri',
             // Atlas系列
             'Atlas': '宇宙神',
             'Atlas-Able': '宇宙神-艾布尔', 'Atlas-Agena': '宇宙神-阿金纳',
@@ -443,7 +492,7 @@
         // —— 发射工位/地点共享映射表 ——
         locMap: {
             // 国家
-            'USA': '美国', 'China': '中国', 'Russia': '俄罗斯', 'Japan': '日本',
+            'USA': '美国', 'United States': '美国', 'China': '中国', 'Russia': '俄罗斯', 'Japan': '日本',
             'India': '印度', 'France': '法国', 'Iran': '伊朗', 'Brazil': '巴西',
             'Kazakhstan': '哈萨克斯坦', 'New Zealand': '新西兰', 'Australia': '澳大利亚',
             'South Korea': '韩国', 'North Korea': '朝鲜', 'Sweden': '瑞典',
@@ -451,6 +500,14 @@
             'Canada': '加拿大', 'Kenya': '肯尼亚', 'Marshall Islands': '马绍尔群岛',
             'French Guiana': '法属圭亚那', 'Gran Canaria': '大加那利岛',
             'Pacific Ocean': '太平洋', 'Barents Sea': '巴伦支海',
+            // 国家形容词形式（机构页 "American Company" 等）
+            'American': '美国', 'Chinese': '中国', 'Russian': '俄罗斯', 'Japanese': '日本',
+            'Indian': '印度', 'French': '法国', 'Iranian': '伊朗', 'Brazilian': '巴西',
+            'South Korean': '韩国', 'North Korean': '朝鲜', 'Swedish': '瑞典',
+            'British': '英国', 'Norwegian': '挪威', 'Israeli': '以色列',
+            'Canadian': '加拿大', 'Australian': '澳大利亚', 'Kazakh': '哈萨克斯坦',
+            'Spanish': '西班牙', 'Italian': '意大利',
+            'German': '德国', 'Dutch': '荷兰', 'Ukrainian': '乌克兰',
             // 州/省
             'Florida': '佛罗里达', 'California': '加利福尼亚', 'Texas': '德克萨斯',
             'Virginia': '弗吉尼亚', 'Alaska': '阿拉斯加', 'Maranhão': '马拉尼昂',
@@ -540,8 +597,9 @@
             'Suborbital': '亚轨道', 'Orbital': '轨道',
             'Land': '陆地', 'Sea': '海基',
             'Submarine': '潜艇', 'Carrier': '载机',
+            'Recovery': '回收', 'Vehicle': '飞行器',
             'Launch Pad': '发射工位', 'Launch Platform': '发射平台',
-            'Launch Site': '发射场', 'Launch Complex': '发射综合体',
+            'Launch Site': '发射场', 'Landing Zone': '着陆区', 'Launch Complex': '发射综合体',
             'Space Launch Complex': '航天发射综合体',
             'launch platform': '发射平台',
             'Series': '系列', 'Starship': '星舰',
@@ -558,69 +616,37 @@
              }, 'i'],
             // "星期名, <时分> PM/AM" → "周X，下午/上午 <时间>"
             [/\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*(\d{1,2}:\d{2})\s*(AM|PM)\b/i,
-             (match, weekday, time, ap) => {
-                 const w = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日' };
-                 return `${w[weekday.toLowerCase()]}，${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`;
-             }, 'i'],
+             (match, weekday, time, ap) => `${_w[weekday.toLowerCase()]}，${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`, 'i'],
             // "月份 日, <时分> PM/AM" → "X月X日 下午/上午 时分"
             [/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{1,2}:\d{2})\s*(AM|PM)\b/i,
-             (match, month, day, time, ap) => {
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `${m[month.toLowerCase()]}${day}日 ${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`;
-             }, 'i'],
+             (match, month, day, time, ap) => `${_m[month.toLowerCase()]}${day}日 ${ap.toUpperCase() === 'PM' ? '下午' : '上午'} ${time}`, 'i'],
             // "NET 月份, 年份" → "不早于 年份月份"
             [/\bNET\s+(January|February|March|April|May|June|July|August|September|October|November|December),\s*(\d{4})\b/i,
-             (match, month, year) => {
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `不早于 ${year}年${m[month.toLowerCase()]}`;
-             }, 'i'],
+             (match, month, year) => `不早于 ${year}年${_m[month.toLowerCase()]}`, 'i'],
             // "NET 月份 日, 年份" → "不早于 年份月份日"
             [/\bNET\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{4})\b/i,
-             (match, month, day, year) => {
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `不早于 ${year}年${m[month.toLowerCase()]}${day}日`;
-             }, 'i'],
+             (match, month, day, year) => `不早于 ${year}年${_m[month.toLowerCase()]}${day}日`, 'i'],
             // "NET Xst/nd/rd/th Quarter, 年份" → "不早于 年份第X季度"
-            [/\bNET\s+1st\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第1季度', ''],
-            [/\bNET\s+2nd\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第2季度', ''],
-            [/\bNET\s+3rd\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第3季度', ''],
-            [/\bNET\s+4th\s+Quarter,\s*(\d{4})\b/i, '不早于 $1年第4季度', ''],
+            [/\bNET\s+(\d)(?:st|nd|rd|th)\s+Quarter,\s*(\d{4})\b/i, (match, q, year) => `不早于 ${year}年第${q}季度`, ''],
             // "NET 1st/2nd Half, 年份" → "不早于 年份上半年/下半年"
-            [/\bNET\s+1st\s+Half,\s*(\d{4})\b/i, '不早于 $1年上半年', ''],
-            [/\bNET\s+2nd\s+Half,\s*(\d{4})\b/i, '不早于 $1年下半年', ''],
+            [/\bNET\s+(\d)(?:st|nd)\s+Half,\s*(\d{4})\b/i, (match, h, year) => `不早于 ${year}年${h === '1' ? '上' : '下'}半年`, ''],
             // "NET 年份" → "不早于 年份年"
             [/\bNET\s+(\d{4})\b/i, '不早于 $1年', ''],
-            // "星期 月 日, 年" → "年月日 周X"（函数替换，一条搞定 7×12 组合）
+            // “星期 月 日, 年” → “年月日 周X”（函数替换，一条搞定 7×12 组合）
             // 例：Thursday July 2, 2026 → 2026年7月2日 周四
             [/\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{4})\b/i,
-             (match, weekday, month, day, year) => {
-                 const w = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日' };
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `${year}年${m[month.toLowerCase()]}${day}日 ${w[weekday.toLowerCase()]}`;
-             }, 'i'],
-            // "缩写星期 缩写月 日, 年" → "年月日 周X"
+             (match, weekday, month, day, year) => `${year}年${_m[month.toLowerCase()]}${day}日 ${_w[weekday.toLowerCase()]}`, 'i'],
+            // “缩写星期 缩写月 日, 年” → “年月日 周X”
             // 例：Tue Jun 30, 2026 → 2026年6月30日 周二
             [/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2}),\s*(\d{4})\b/i,
-             (match, weekday, month, day, year) => {
-                 const w = { mon: '周一', tue: '周二', wed: '周三', thu: '周四', fri: '周五', sat: '周六', sun: '周日' };
-                 const m = { jan: '1月', feb: '2月', mar: '3月', apr: '4月', may: '5月', jun: '6月', jul: '7月', aug: '8月', sep: '9月', oct: '10月', nov: '11月', dec: '12月' };
-                 return `${year}年${m[month.toLowerCase()]}${day}日 ${w[weekday.toLowerCase()]}`;
-             }, 'i'],
+             (match, weekday, month, day, year) => `${year}年${_mAbbr[month.toLowerCase()]}${day}日 ${_wAbbr[weekday.toLowerCase()]}`, 'i'],
             // “月份 日, 年” → “年月日”（卡片日期，无星期无时间）
-            // 例：April 8, 2025 → 2025年4月8日
             // 必须排在”星期 月 日, 年”规则之后，避免抢占带星期的日期
             [/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(\d{4})\b/i,
-             (match, month, day, year) => {
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `${year}年${m[month.toLowerCase()]}${day}日`;
-             }, 'i'],
+             (match, month, day, year) => `${year}年${_m[month.toLowerCase()]}${day}日`, 'i'],
             // “月份 日” → “X月X日”（天气组件，无年份）
-            // 例：July 01 → 7月1日
             [/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\b/i,
-             (match, month, day) => {
-                 const m = { january: '1月', february: '2月', march: '3月', april: '4月', may: '5月', june: '6月', july: '7月', august: '8月', september: '9月', october: '10月', november: '11月', december: '12月' };
-                 return `${m[month.toLowerCase()]}${day}日`;
-             }, 'i'],
+             (match, month, day) => `${_m[month.toLowerCase()]}${day}日`, 'i'],
             // —— 火箭参数动态值 ——
             // "Height: 46.97m" → "高度：46.97m"
             [/\bHeight:\s*([\d.,]+m?)\b/i, '高度：$1', ''],
@@ -664,30 +690,29 @@
                 const cn = {1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',7:'七',8:'八',9:'九',10:'十'};
                 return '第' + (cn[num] || num) + '级';
             }, 'i'],
-            // "Flight #29" → "第29次飞行"
-            [/\bFlight\s+#(\d+)\b/i, '第$1次飞行', ''],
-            // "62 days turnaround" → "周转 62天"（须排在 days 规则前，否则 days 规则先命中返回）
+            // "Flight #29" / "Flight 13" → "第29次飞行" / "第13次飞行"
+            [/\bFlight\s+#?(\d+)\b/i, '第$1次飞行', ''],
+            // "62 days turnaround" → "周转 62天"（须排在 days 规则前）
             [/\b(\d+)\s*days?\s+turnaround\b/i, '周转 $1天', ''],
-            // "76 days 1 hr" -> "76天 1时"（须排在 days 规则前）
-            [/\b(\d+)\s*days?\s+(\d+)\s*(?:hrs?|hours?)\b/i, '$1天 $2时', ''],
-            // "1 hr" -> "1时"
-            [/\b(\d+)\s*(?:hrs?|hours?)\b/i, '$1时', ''],
-            // "Falcon recoveries" / "ZhuQue recoveries" → "Falcon 回收" / "ZhuQue 回收"（XX+回收，自动适配新火箭）
+            // "76 days 1 hr" / "10 days 18 hours" → "76天 1小时" / "10天 18小时"
+            [/\b(\d+)\s*days?\s+(\d+)\s*(?:hrs?|hours?)\b/i, '$1天 $2小时', ''],
+            // "1 hr" / "18 hours" → "1小时" / "18小时"
+            [/\b(\d+)\s*(?:hrs?|hours?)\b/i, '$1小时', ''],
+            // "Falcon recoveries" / "ZhuQue recoveries" → "Falcon 回收" / "ZhuQue 回收"
             [/^(.+?)\s+recoveries\b/i, (match, name) => {
                 const t = dict.get(name) || dict.get(name.replace(/-/g, ' '));
                 return (t || name) + '回收';
             }, 'i'],
             // "24 Payloads" → "24个载荷"
             [/\b(\d+)\s*Payloads?\b/i, '$1个载荷', ''],
-            // "10 days 18 hours" → "10天 18小时"
-            [/\b(\d+)\s*days?\s*(\d+)\s*hours?\b/i, '$1天 $2小时', ''],
             // "2 days ago" → "前天"，"3 days ago" → "3天前"（须排在 days 规则前）
             [/\b2\s+days?\s+ago\b/i, '前天', ''],
             [/\b(\d+)\s*days?\s+ago\b/i, '$1天前', ''],
             [/\b(\d+)\s*days?\b/i, '$1天', ''],
-            [/\b(\d+)\s*hours?\b/i, '$1小时', ''],
             // "7 knots" → "7节"
             [/\b(\d+)\s*knots?\b/i, '$1节', ''],
+            // "6 Flights" → "6次飞行"
+            [/\b(\d+)\s+Flights?\b/i, '$1次飞行', ''],
             // "Closures can indicate a planned Starship test or transport" → "封路可能预示着计划中的星舰测试或运输"
             [/\bClosures can indicate a planned (.+?) test or transport\b/i,
              (match, rocket) => `封路可能预示着计划中的${dict.get(rocket) || rocket}测试或运输`, ''],
@@ -715,8 +740,34 @@
                 return `${c} ${locParts.join(' ')}`;
             }, ''],
             // —— 独立工位名（不含 @，详情页）：Commercial LC-1 → 商业 LC-1，但 Pad 单独出现不翻译 ——
-            [/\b(Commercial|Offshore|Mobile|Launcher|Orbital|Suborbital|Land|Sea|Submarine|Carrier|Launch\s+Pad|Launch\s+Platform|Launch\s+Complex|Launch\s+Site|Space\s+Launch\s+Complex|Platform|launch\s+location|launch\s+platform|Series|Starship|Unknown|South\s+China\s+Sea|Yellow\s+Sea)\b/gi,
+            [/\b(Commercial|Offshore|Mobile|Launcher|Orbital|Suborbital|Land|Sea|Submarine|Carrier|Launch\s+Pad|Launch\s+Platform|Launch\s+Complex|Launch\s+Site|Landing\s+Zone|Space\s+Launch\s+Complex|Platform|launch\s+location|launch\s+platform|Series|Starship|Unknown|Recovery|Vehicle|South\s+China\s+Sea|Yellow\s+Sea)\b/gi,
              (match) => locationMap[match] || match, ''],
+            // —— 机构页所属类型：American Company → 美国公司 ——
+            [/^(.+?)\s+Company$/i, (match, country) => {
+                const t = locationMap[country] || dict.get(country) || country;
+                return `${t}公司`;
+            }, ''],
+            // —— 机构页所属类型 ——
+            // "Government Agency, China" → "中国政府机构"
+            [/^Government\s+Agency,\s*(.+)$/i, (match, country) => {
+                const t = locationMap[country] || dict.get(country) || country;
+                return `${t}政府机构`;
+            }, ''],
+            // "Russian Government Agency" → "俄罗斯政府机构"
+            [/^(.+?)\s+Government\s+Agency$/i, (match, country) => {
+                const t = locationMap[country] || dict.get(country) || country;
+                return `${t}政府机构`;
+            }, ''],
+            // "State-owned Company, China" → "中国国有企业"
+            [/^State-owned\s+Company,\s*(.+)$/i, (match, country) => {
+                const t = locationMap[country] || dict.get(country) || country;
+                return `${t}国有企业`;
+            }, ''],
+            // "Chinese State-owned Company" → "中国国有企业"
+            [/^(.+?)\s+State-owned\s+Company$/i, (match, country) => {
+                const t = locationMap[country] || dict.get(country) || country;
+                return `${t}国有企业`;
+            }, ''],
             // —— 发射说明动态文本：一句话内组合翻译多个词组 ——
             [/^.*\blaunch\b.*\brocket\b.*$/i, (match) => {
                 let r = match.replace(/\u2019/g, "'"); // 弯引号→直引号
@@ -732,6 +783,23 @@
                 r = r.replace(/\bFirst\s+launch\s+of\s+the\s+(.+?)\s+rocket\b/i, (m, rk) => `${lookup(rk)}火箭首次发射`);
                 r = r.replace(/\brocket\b/gi, '火箭');
                 return r;
+            }, ''],
+            // —— 着陆场：ZhuQue-3 Landing Site → 朱雀三号 着陆场 ——
+            [/^(.+?)\s+Landing\s+Site$/i, (match, name) => {
+                const t = dict.get(name) || dict.get(name.replace(/-/g, ' ')) || name;
+                return `${t} 着陆场`;
+            }, ''],
+            // —— Vulcan VC配置：Vulcan VC6L → 火神 VC6L ——
+            [/^Vulcan\s+(VC\d+[LS])$/i, '火神 $1', ''],
+            // —— 飞船舱：Gemini Capsule → 双子座 载人舱，新谢泼德 Capsule → 新谢泼德 载人舱 ——
+            [/^(.+?)\s+Capsule$/i, (match, name) => {
+                const t = dict.get(name) || dict.get(name.replace(/-/g, ' ')) || name;
+                return `${t} 载人舱`;
+            }, ''],
+            // —— 航天飞机名：航天飞机 Atlantis → 航天飞机 亚特兰蒂斯 ——
+            [/^(.+?)\s+(Atlantis|Endeavour|Discovery|Columbia|Challenger)$/i, (match, prefix, name) => {
+                const t = dict.get(name) || name;
+                return `${prefix} ${t}`;
             }, ''],
             // —— 卡片火箭|机构：Falcon 9 Block 5 | SpaceX → 猎鹰9号 Block 5 | SpaceX ——
             [/^(.+?)\s+\|\s+(.+)$/, (match, rocket, agency) => {
@@ -792,6 +860,7 @@
     let lowerDict = new Map();   // 小写匹配：英文(小写) → 中文
     let regexRules = [];         // 预编译正则规则：[RegExp, 替换串]
     let locationMap = {};        // 发射工位地点映射表
+    let rocketNames = new Set(); // 火箭名单字前缀白名单（允许 i=1 匹配）
 
     const translatedNodes = new WeakSet();  // 已翻译节点，防抖去重
 
@@ -823,12 +892,22 @@
         let result = dict.get(lookupKey) || dict.get(originalTrimmed) || lowerDict.get(lookupKey.toLowerCase());
         if (result) return text.replace(originalTrimmed, result);
 
-        // 1.5) 火箭名/机构名前缀匹配：Atlas V 551 → 宇宙神V 551（至少2词前缀）
+        // 1.1) 连字符→空格再试：ZhuQue-3 → ZhuQue 3 → 朱雀三号
+        const hyphenKey = lookupKey.replace(/-/g, ' ');
+        if (hyphenKey !== lookupKey) {
+            let hResult = dict.get(hyphenKey) || lowerDict.get(hyphenKey.toLowerCase());
+            if (hResult) return text.replace(originalTrimmed, hResult);
+        }
+
+        // 1.5) 火箭名/机构名前缀匹配：Atlas V 551 → 宇宙神V 551
+        // i=1 仅限火箭名单字前缀（Alpha Block 2 → 阿尔法 Block 2），避免 NET 等普通词误匹配
         const parts = lookupKey.split(/\s+/);
-        for (let i = parts.length - 1; i >= 2; i--) {
+        for (let i = parts.length - 1; i >= 1; i--) {
             const prefix = parts.slice(0, i).join(' ');
             const tp = dict.get(prefix) || lowerDict.get(prefix.toLowerCase());
             if (tp) {
+                // 单字前缀仅限火箭名白名单
+                if (i === 1 && !rocketNames.has(prefix) && !rocketNames.has(prefix.toLowerCase())) continue;
                 const suffix = parts.slice(i).join(' ');
                 return text.replace(originalTrimmed, tp + ' ' + suffix);
             }
@@ -1039,6 +1118,9 @@
         for (const [k, v] of Object.entries(rockets)) {
             dict.set(k, v);
             lowerDict.set(k.toLowerCase(), v);
+            // 记录火箭名单词前缀（允许在 translate 中做 i=1 前缀匹配）
+            const firstWord = k.split(/\s|-/)[0];
+            if (firstWord) rocketNames.add(firstWord);
         }
         regexRules = (configData.regexRules || []).map(rule => {
             // rule[0] 若已是 RegExp 字面量（自带 flags），无显式覆盖时直接保留，避免抹掉 /i 等标志
